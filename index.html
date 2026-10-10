@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --primary: #1f8a70;
+      --primary-dark: #146c55;
+      --bg-soft: #f3faf7;
+      --text: #1f2a37;
+      --muted: #607080;
+      --line: #dfe9e5;
+      --danger: #b42318;
+      --success: #0f9f6e;
+      --shadow: 0 18px 40px rgba(15, 76, 62, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f5faf7 0%, #eaf4f1 100%);
+      margin: 0;
+      padding: 24px 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--text);
+    }
+
+    .donation-container {
+      background: rgba(255, 255, 255, 0.92);
+      width: 100%;
+      max-width: 580px;
+      padding: 30px 28px 24px;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(31, 138, 112, 0.08);
+      backdrop-filter: blur(4px);
+    }
+
+    .logo {
+      display: block;
+      margin: 0 auto 22px;
+      max-width: 250px;
+      height: auto;
+      filter: drop-shadow(0 8px 16px rgba(20, 108, 85, 0.16));
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--primary-dark);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--text);
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 2.6rem);
+    }
+
+    p.description {
+      text-align: center;
+      color: var(--muted);
+      max-width: 440px;
+      margin: 0 auto 24px;
+      line-height: 1.6;
+      font-size: 1.02rem;
+    }
+
+    .donation-action {
+      margin: 0 0 28px;
+      padding: 20px 16px;
+      border-radius: 16px;
+      background: var(--bg-soft);
+      text-align: center;
+    }
+
+    .donation-action p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      color: var(--text);
+      font-size: 1.2rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+      color: var(--text);
+      font-size: 0.96rem;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font-size: 1rem;
+      box-sizing: border-box;
+      background: #fff;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+      color: var(--text);
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: rgba(31, 138, 112, 0.8);
+      box-shadow: 0 0 0 4px rgba(31, 138, 112, 0.12);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    button.submit-btn {
+      width: 100%;
+      padding: 16px 18px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.02rem;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      box-shadow: 0 12px 22px rgba(20, 108, 85, 0.2);
+      margin-top: 8px;
+    }
+
+    button.submit-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 28px rgba(20, 108, 85, 0.25);
+    }
+
+    .donate-link {
+      display: block;
+      width: 50%;
+      max-width: 280px;
+      margin: 0 auto;
+      padding: 14px 8px;
+      border: 2px solid var(--primary-dark);
+      border-radius: 12px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      font-size: 1.02rem;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 10px 20px rgba(20, 108, 85, 0.2);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .donate-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 24px rgba(20, 108, 85, 0.28);
+    }
+
+    .donate-link:focus-visible {
+      outline: 3px solid rgba(31, 138, 112, 0.3);
+      outline-offset: 3px;
+    }
+
+    button.submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .status-message {
+      margin-top: 16px;
+      min-height: 22px;
+      font-size: 0.92rem;
+      display: none;
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+
+    .status-message.visible {
+      display: block;
+    }
+
+    .status-message.info {
+      background: #edf7ff;
+      color: #15538b;
+      border: 1px solid #cfe4ff;
+    }
+
+    .status-message.error {
+      background: #fff1f1;
+      color: var(--danger);
+      border: 1px solid #f7c5c5;
+    }
+
+    .status-message.success {
+      background: #edfdf6;
+      color: var(--success);
+      border: 1px solid #cfead7;
+    }
+
+    .thank-you-toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 10000;
+      width: min(420px, calc(100% - 32px));
+      padding: 16px 20px;
+      border: 1px solid #b9e4d2;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 16px 40px rgba(15, 76, 62, 0.2);
+      color: var(--text);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .thank-you-toast.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .thank-you-toast strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--success);
+      font-size: 1rem;
+    }
+
+    .thank-you-toast span {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .small-text {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 18px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 480px) {
+      .donation-container {
+        padding: 24px 18px 18px;
+      }
+
+      .logo {
+        max-width: 220px;
+      }
+
+      .donate-link {
+        width: 50%;
+      }
+
+      body {
+        padding: 18px 12px;
+      }
+
+      .thank-you-toast {
+        right: 16px;
+        bottom: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="donation-container">
+    <img class="logo" src="logo.png" alt="Logo IMARAKE">
+    <p class="eyebrow">Ensemble, agissons</p>
+    <h1>Soutenir IMARAKE</h1>
+    <p class="description">
+      Votre soutien nous permet d’agir pour les personnes en difficulté et de financer nos actions humanitaires.
+    </p>
+
+    <section class="donation-action" aria-label="Faire un don">
+      <p>Chaque don contribue à faire avancer nos actions.</p>
+      <a class="donate-link" href="https://pay.fondeka.com/p/PQ7L6DYTB" target="_blank" rel="noopener noreferrer">
+        Faire un don
+      </a>
+    </section>
+
+    <form id="donationForm" novalidate>
+      <h2>Nous contacter</h2>
+      <div class="form-group">
+        <label for="nom">Nom complet</label>
+        <input type="text" id="nom" name="nom" placeholder="Votre nom complet" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Adresse email</label>
+        <input type="email" id="email" name="email" placeholder="votre@email.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message (facultatif)</label>
+        <textarea id="message" name="message" placeholder="Laissez un message de soutien ou une précision..."></textarea>
+      </div>
+
+      <button class="submit-btn" type="submit" disabled>Envoyer</button>
+      <div id="formStatus" class="status-message" aria-live="polite"></div>
+    </form>
+
+    <p class="small-text">
+      Votre message sera envoyé directement à notre équipe à l’adresse imarakeproject@gmail.com.
+    </p>
+  </div>
+  <div id="thankYouToast" class="thank-you-toast" role="status" aria-live="polite" aria-atomic="true">
+    <strong>Merci pour votre message !</strong>
+    <span>Votre message a bien été transmis à l’équipe IMARAKE.</span>
+  </div>
+
+  <script>
+    const form = document.getElementById("donationForm");
+    const submitButton = form.querySelector(".submit-btn");
+    const messageBox = document.getElementById("formStatus");
+    const thankYouToast = document.getElementById("thankYouToast");
+    const nomInput = document.getElementById("nom");
+    const emailInput = document.getElementById("email");
+    let thankYouTimeout;
+
+    function showStatus(text, type = "info") {
+      messageBox.textContent = text;
+      messageBox.className = `status-message visible ${type}`;
+    }
+
+    function validateForm() {
+      const nom = nomInput.value.trim();
+      const email = emailInput.value.trim();
+      const isValid = nom.length > 1 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      submitButton.disabled = !isValid;
+      return isValid;
+    }
+
+    [nomInput, emailInput].forEach((input) => {
+      input.addEventListener("input", () => {
+        if (messageBox.classList.contains("error")) {
+          messageBox.className = "status-message";
+        }
+        validateForm();
+      });
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      if (!validateForm()) {
+        showStatus("Veuillez renseigner un nom valide et une adresse email correcte.", "error");
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.textContent = "Envoi en cours...";
+      showStatus("Envoi de votre message en cours...", "info");
+
+      try {
+        const response = await fetch("/submit-form", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            nom: nomInput.value.trim(),
+            email: emailInput.value.trim(),
+            message: document.getElementById("message").value.trim()
+          })
+        });
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || "Erreur lors de l’envoi du message.");
+        }
+
+        form.reset();
+        messageBox.className = "status-message";
+        thankYouToast.classList.add("visible");
+        window.clearTimeout(thankYouTimeout);
+        thankYouTimeout = window.setTimeout(() => {
+          thankYouToast.classList.remove("visible");
+        }, 8000);
+      } catch (error) {
+        showStatus(error.message || "Erreur lors de l’envoi du message.", "error");
+      } finally {
+        submitButton.textContent = "Envoyer";
+        validateForm();
+      }
+    });
+
+    validateForm();
+  </script>
+  <link rel="stylesheet" href="whatsapp-button.css">
+  <script src="whatsapp-button.js" defer></script>
+</body>
+</html>
